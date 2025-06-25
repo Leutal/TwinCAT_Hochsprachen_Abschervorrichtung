@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Betriebsarten" Id="{9f3c47b0-eea8-486d-bc24-1b316794b68c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Betriebsarten
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+- Wenn Not-Aus aktiv, alle FB-Ausgänge rücksetzen und Ausgang vqx_Störung setzen 
+- vqx_AnlageEin speichernd set/reset mit vix_AnlageEin und vix_AnlageAus (Öffner) 
+- Wenn Anlage nicht eigeschaltet, dann alle Ausgänge rücksetzen 
+- vqx_Man wird gesetzt, wenn vix_ManAuto auf Man (False) steht und Anlage eingeschaltet ist 
+- vqx_Auto wird gesetzt, wenn vix_ManAuto auf Auto (True) steht und Anlage eingeschaltet ist 
+- vqx_EinzZykl wird gesetzt, wenn vix_DauerEinz auf Einzel (True) steht und die Anlage eingeschaltet ist 
+- vqx_ImpEinzelSchritt wird für 1 Zyklus logisch "1" wenn der Einzel-Zyklus aktiv ist und die Anlage eingeschaltet ist und der Start-Taster gedrückt wird. 
+- vqx_DauerZykl wird gesetzt, wenn vix_DauerEinz auf Dauer (False) steht und der Automatikbetrieb aktiv und die Anlage eingeschaltet ist 
+- vqx_ImpDauerZykl wird für 1 Zyklus logisch "1" wenn Dauer-Zyklus aktiv ist und die Anlage eingeschaltet ist und der Start-Taster gedrückt wird.
+*)
+
+
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

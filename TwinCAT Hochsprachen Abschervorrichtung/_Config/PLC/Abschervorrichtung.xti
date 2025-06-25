@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4026.16" ClassName="CNestedPlcProjDef">
+	<Project GUID="{B050732D-8400-4A3C-A478-C80E4FAA94F8}" Name="Abschervorrichtung" PrjFilePath="..\..\Abschervorrichtung\Abschervorrichtung.plcproj" TmcFilePath="..\..\Abschervorrichtung\Abschervorrichtung.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+		<Instance File="Abschervorrichtung Instance.xti"/>
+	</Project>
+</TcSmItem>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <GVL Name="GVL_Abschervorrichtung" Id="{b6f18c97-0dea-4b2c-9ddd-c918dcd13c1a}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+{region "Inputs"}
+Ix_S1: BOOL; 								// Anlage Ein 
+Ix_S2: BOOL; 								// Anlage Aus (Öffner) 
+Ix_S3: BOOL; 								// Hand / Auto 
+Ix_S4: BOOL; 								// Einzel- / Dauerzyklus 
+Ix_S5: BOOL; 								// Richten 
+Ix_S6: BOOL; 								// Start-Taster 
+Ix_B1: BOOL; 								// Grenztaster Zyl.A eingefahren 
+Ix_B2: BOOL; 								// Grenztaster Zyl.A ausgefahren 
+Ix_B3: BOOL; 								// Grenztaster Zyl.B eingefahren 
+Ix_B4: BOOL; 								// Grenztaster Zyl.B ausgefahren 
+Ix_B5: BOOL; 								// Grenztaster Zyl.C eingefahren 
+Ix_B6: BOOL; 								// Grenztaster Zyl.C ausgefahren 
+Ix_B7: BOOL; 								// Grenztaster Zyl.D eingefahren 
+Ix_B8: BOOL; 								// Grenztaster Zyl.D ausgefahren 	
+{endregion}
+
+{region "Outputs"}
+Qx_M1: BOOL; 								// Ventil füR Zylinder A aus/einfahren 
+Qx_M2: BOOL; 								// Ventil füR Zylinder B aus/einfahren 
+Qx_M3: BOOL; 								// Ventil füR Zylinder C aus/einfahren 
+Qx_M4: BOOL; 								// Ventil füR Zylinder D aus/einfahren 
+Qx_P1: BOOL; 								// Lampe Anlage Ein 
+Qx_P2: BOOL; 								// Lampe Manuelbetrieb 
+Qx_P3: BOOL; 								// Lampe Autobetrieb 
+Qx_P4: BOOL; 								// Lampe Dauerzyklus 
+Qx_P5: BOOL; 								// Lampe STörung / NOT-Aus
+{endregion}
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
