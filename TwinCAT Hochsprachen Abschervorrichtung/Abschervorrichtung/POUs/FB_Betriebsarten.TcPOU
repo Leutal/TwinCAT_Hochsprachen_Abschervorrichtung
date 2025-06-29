@@ -3,15 +3,29 @@
   <POU Name="FB_Betriebsarten" Id="{9f3c47b0-eea8-486d-bc24-1b316794b68c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Betriebsarten
 VAR_INPUT
-	bStart: BOOL;
-	bStopp: BOOL;
-	lastbStart: BOOL;
-	lastbStopp: BOOL;
+	bIAnlageEin:			BOOL;		// Taster Anlage eingeschaltet
+	bISAnlageAus: 			BOOL;		// Taster Anlage ausgeschaltet
+	bIManAuto:				BOOL;		// Schalter Manuell / Automatik
+	bINotAus:				BOOL;		// Not-Aus, 1 = i.O, 0 = betätigt
+	bIDauerEinzel:			BOOL;		// Schalter Dauer- bzw. Einzelbetrieb, 0 = Dauer, 1 = Einzelbetrieb
+	bIStart:				BOOL;		// Starttaster 
 END_VAR
 VAR_OUTPUT
+	bOAnlageEin:			BOOL;		// 1 = Anlage eingeschaltet
+	bOManuell:				BOOL;		// 1 = Anlage Manuellbetrieb
+	bOAuto:					BOOL;		// 1 = Anlage im Autobetrieb
+	bOEinzelZyklus:			BOOL;		// 1 = Einzelzyklus aktiv
+	bODauerZyklus:			BOOL;		// 1 = Dauerzyklus aktiv
+	bOStoerung:				BOOL;		// 1 = Stoerung vorhanden (Not-Aus)
+	bOImpEinzelSchritt:		BOOL;		// Impuls bei Einzelschrittbetrieb von Start-Taster
+	bOImpDauerZyklus:		BOOL;		// Impuls bei Dauerschrittbetrieb von Start-Taster
+END_VAR
+VAR_IN_OUT
 END_VAR
 VAR
-	Status: ST_SystemState;
+	bSVAnlageEin:			BOOL;		// Variable 1 = Anlage eingeschaltet 
+	lastbEinzelImp: 		BOOL;		// Letzter Zustand Tipp-Impuls für Flankenerkennung
+	lastbDauerImp: 			BOOL;		// Letzter Zustand Dauer-Impuls für Flankenerkennung
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,12 +40,17 @@ END_VAR
 - vqx_DauerZykl wird gesetzt, wenn vix_DauerEinz auf Dauer (False) steht und der Automatikbetrieb aktiv und die Anlage eingeschaltet ist 
 - vqx_ImpDauerZykl wird für 1 Zyklus logisch "1" wenn Dauer-Zyklus aktiv ist und die Anlage eingeschaltet ist und der Start-Taster gedrückt wird.
 *)
-
-IF bStart AND NOT lastbStart THEN
-	METH_SetStart();
-ELSIF bStopp AND NOT lastbStopp THEN
-	METH_SetStop();
+IF bINotAus THEN
+bOAnlageEin				:= FALSE;
+bOManuell				:= FALSE;
+bOAuto					:= FALSE;
+bOEinzelZyklus			:= FALSE;		
+bODauerZyklus			:= FALSE;
+bOImpEinzelSchritt		:= FALSE;		
+bOImpDauerZyklus		:= FALSE;
+bOStoerung				:= TRUE;
 END_IF
+
 
 
 
@@ -40,27 +59,5 @@ lastbStart := bStart;
 lastbStopp := bStopp;
 	]]></ST>
     </Implementation>
-    <Method Name="METH_SetStart" Id="{28dfd44c-7ddd-4eb0-b797-dc7922284eac}">
-      <Declaration><![CDATA[METHOD METH_SetStart : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Status.systemRUN 	:= TRUE;
-Status.systemSTOP 	:= FALSE;
-RETURN;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="METH_SetStop" Id="{9df424f0-7437-4494-acb7-9f62e3581431}">
-      <Declaration><![CDATA[METHOD METH_SetStop : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[Status.systemRUN 	:= FALSE;
-Status.systemSTOP 	:= TRUE;
-RETURN;]]></ST>
-      </Implementation>
-    </Method>
   </POU>
 </TcPlcObject>

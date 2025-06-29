@@ -5,6 +5,7 @@
 VAR
 	Ablauf: FB_Ablauf;
 	Betriebsarten: FB_Betriebsarten;
+	currentState: ST_SystemState;
 END_VAR
 ]]></Declaration>
     <Implementation>
