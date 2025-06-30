@@ -19,7 +19,7 @@ VAR_OUTPUT
 	bOStoerung:				BOOL;		// 1 = Stoerung vorhanden (Not-Aus)
 	bOImpEinzelSchritt:		BOOL;		// Impuls bei Einzelschrittbetrieb von Start-Taster
 	bOImpDauerZyklus:		BOOL;		// Impuls bei Dauerschrittbetrieb von Start-Taster
-	stAnlagenzustand:		ST_Anlagenzustand;
+	stAnlagenzustand:		ST_systemState;
 END_VAR
 VAR_IN_OUT
 END_VAR

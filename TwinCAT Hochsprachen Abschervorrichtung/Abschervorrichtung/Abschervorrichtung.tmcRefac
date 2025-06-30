@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="e8bfe8bd-2321-4c88-9dda-b8aa9cbab3b3">ST_ANLAGENZUSTAND</Type>
+      <From>ST_Anlagenzustand</From>
+      <To>ST_systemState</To>
+    </RenamedType>
+  </Renames>
+</Refactors>

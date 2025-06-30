@@ -18,7 +18,7 @@
     <LibraryReferences>{e22b56a7-6b2c-4f5e-8a67-1cb5249ecdfa}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\ST_Anlagenzustand.TcDUT">
+    <Compile Include="DUTs\ST_systemState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GVLs\GVL_Abschervorrichtung.TcGVL">
