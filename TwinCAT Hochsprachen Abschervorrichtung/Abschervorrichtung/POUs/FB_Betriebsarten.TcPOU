@@ -3,12 +3,12 @@
   <POU Name="FB_Betriebsarten" Id="{9f3c47b0-eea8-486d-bc24-1b316794b68c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Betriebsarten
 VAR_INPUT
+	bIStart:				BOOL;		// Starttaster 
 	bIAnlageEin:			BOOL;		// Taster Anlage eingeschaltet
-	bISAnlageAus: 			BOOL;		// Taster Anlage ausgeschaltet
+	bIAnlageAus: 			BOOL;		// Taster Anlage ausgeschaltet
 	bIManAuto:				BOOL;		// Schalter Manuell / Automatik
 	bINotAus:				BOOL;		// Not-Aus, 1 = i.O, 0 = betätigt
 	bIDauerEinzel:			BOOL;		// Schalter Dauer- bzw. Einzelbetrieb, 0 = Dauer, 1 = Einzelbetrieb
-	bIStart:				BOOL;		// Starttaster 
 END_VAR
 VAR_OUTPUT
 	bOAnlageEin:			BOOL;		// 1 = Anlage eingeschaltet
@@ -27,6 +27,7 @@ VAR
 	bSVAnlageEin:			BOOL;		// Variable 1 = Anlage eingeschaltet 
 	lastbEinzelImp: 		BOOL;		// Letzter Zustand Tipp-Impuls für Flankenerkennung
 	lastbDauerImp: 			BOOL;		// Letzter Zustand Dauer-Impuls für Flankenerkennung
+	lastbStart:				BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -46,19 +47,85 @@ END_VAR
 // 	stAnlagenzustand.bAnlageEin := TRUE;
 // END_IF
 
-IF bINotAus THEN
-bOAnlageEin				:= FALSE;
-bOManuell				:= FALSE;
-bOAuto					:= FALSE;
-bOEinzelZyklus			:= FALSE;		
-bODauerZyklus			:= FALSE;
-bOImpEinzelSchritt		:= FALSE;		
-bOImpDauerZyklus		:= FALSE;
-bOStoerung				:= TRUE;
+{region "not-aus"}							// If machine running and emergency stop button get hit, reset all outputs to FALSE expect output "Error"
+IF bINotAus THEN			
+		bOAnlageEin				:= FALSE;
+		bOManuell				:= FALSE;
+		bOAuto					:= FALSE;
+		bOEinzelZyklus			:= FALSE;		
+		bODauerZyklus			:= FALSE;
+		bOImpEinzelSchritt		:= FALSE;		
+		bOImpDauerZyklus		:= FALSE;
+		bOStoerung				:= TRUE;
+	ELSE
+		bOStoerung := FALSE;
 END_IF
+{endregion}
 
+{region "Anlage Ein/Aus}					// SR (reset-dominant) for status 'machine run' or 'machine isn't running'
+IF bIAnlageAus THEN
+	bOAnlageEin := FALSE;
+ELSIF bIAnlageEin THEN
+	bOAnlageEin := TRUE;
+END_IF
+{endregion}
 
+{region "Anlage aus"}
+IF NOT bOAnlageEin THEN
+	bOAnlageEin				:= FALSE;
+	bOManuell				:= FALSE;
+	bOAuto					:= FALSE;
+	bOEinzelZyklus			:= FALSE;		
+	bODauerZyklus			:= FALSE;
+	bOImpEinzelSchritt		:= FALSE;		
+	bOImpDauerZyklus		:= FALSE;
+	bOStoerung				:= FALSE;	
+	END_IF
+{endregion}
+	
 
+{region "man/auto"}
+IF bOAnlageEin AND NOT bIManAuto THEN
+		bOManuell 	:= TRUE;
+		bOAuto 		:= FALSE;
+	ELSIF bOAnlageEin AND bIManAuto THEN
+		bOManuell 	:= FALSE;
+		bOAuto 		:= TRUE;
+	END_IF
+{endregion}
+	
+
+{region "Einzelzykluis"}
+IF bIDauerEinzel AND bOAnlageEin THEN
+		bOEinzelZyklus := TRUE;
+ELSE 
+		bOEinzelZyklus := FALSE;
+	END_IF
+{endregion}
+
+{region "Dauerzyklus"}
+IF NOT bIDauerEinzel AND bOAuto AND bOAnlageEin THEN
+		bODauerZyklus := TRUE;
+	ELSE
+		bODauerZyklus := FALSE;
+	END_IF
+{endregion}
+
+{region "Impulse Dauer/Einzel"}
+IF bOEinzelZyklus AND bOAnlageEin AND bIStart AND NOT lastbStart AND NOT lastbEinzelImp THEN
+		bOImpEinzelSchritt := TRUE;
+	ELSE bOImpEinzelSchritt := FALSE;
+	END_IF
+
+IF bODauerZyklus AND bOAnlageEin AND bIStart AND NOT lastbStart AND NOT lastbDauerImp THEN
+		bOImpDauerZyklus := TRUE;
+	ELSE bOImpDauerZyklus := FALSE;
+	END_IF
+
+lastbDauerImp 	:= bOImpDauerZyklus;
+lastbEinzelImp 	:= bOImpEinzelSchritt;
+lastbStart 		:= bIStart;	
+{endregion}
 	]]></ST>
     </Implementation>
   </POU>
