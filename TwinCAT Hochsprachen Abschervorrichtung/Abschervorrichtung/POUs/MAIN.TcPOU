@@ -5,11 +5,10 @@
 VAR
 	Ablauf: FB_Ablauf;
 	Betriebsarten: FB_Betriebsarten;
-	currentState: ST_SystemState;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Ablauf();
+      <ST><![CDATA[Ablauf(stAnlagenzustand := Betriebsarten.stAnlagenzustand);
 Betriebsarten();]]></ST>
     </Implementation>
   </POU>

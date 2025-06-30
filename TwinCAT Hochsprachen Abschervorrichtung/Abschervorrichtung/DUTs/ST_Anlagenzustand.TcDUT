@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="ST_Anlagenzustand" Id="{e8bfe8bd-2321-4c88-9dda-b8aa9cbab3b3}">
+    <Declaration><![CDATA[TYPE ST_Anlagenzustand :
+STRUCT
+	bAnlageEin: BOOL;
+	bAnlageAus: BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -19,6 +19,7 @@ VAR_OUTPUT
 	bOStoerung:				BOOL;		// 1 = Stoerung vorhanden (Not-Aus)
 	bOImpEinzelSchritt:		BOOL;		// Impuls bei Einzelschrittbetrieb von Start-Taster
 	bOImpDauerZyklus:		BOOL;		// Impuls bei Dauerschrittbetrieb von Start-Taster
+	stAnlagenzustand:		ST_Anlagenzustand;
 END_VAR
 VAR_IN_OUT
 END_VAR
@@ -40,6 +41,11 @@ END_VAR
 - vqx_DauerZykl wird gesetzt, wenn vix_DauerEinz auf Dauer (False) steht und der Automatikbetrieb aktiv und die Anlage eingeschaltet ist 
 - vqx_ImpDauerZykl wird für 1 Zyklus logisch "1" wenn Dauer-Zyklus aktiv ist und die Anlage eingeschaltet ist und der Start-Taster gedrückt wird.
 *)
+
+// IF bIStart THEN
+// 	stAnlagenzustand.bAnlageEin := TRUE;
+// END_IF
+
 IF bINotAus THEN
 bOAnlageEin				:= FALSE;
 bOManuell				:= FALSE;
@@ -53,10 +59,6 @@ END_IF
 
 
 
-
-
-lastbStart := bStart;
-lastbStopp := bStopp;
 	]]></ST>
     </Implementation>
   </POU>

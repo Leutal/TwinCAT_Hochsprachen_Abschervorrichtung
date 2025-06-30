@@ -3,6 +3,7 @@
   <POU Name="FB_Ablauf" Id="{1522559e-d157-41a8-a0be-2b09dc81f45b}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Ablauf
 VAR_INPUT
+	stAnlagenzustand: ST_Anlagenzustand;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -11,7 +12,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF currentState.systemRUN THEN
+      <ST><![CDATA[IF stAnlagenzustand.bAnlageEin THEN
 	iStep := 010;
 END_IF
 
